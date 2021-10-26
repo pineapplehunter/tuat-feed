@@ -33,15 +33,12 @@ def parse_post(post_raw) -> Post:
     update_date = datetime.strptime(update_date_raw[:-5], "%Y/%m/%d").date()
     show_date_raw = post_data_raw.pop("公開期間")
     show_date_start_raw, show_date_end_raw = show_date_raw.split(" 〜 ")
-    show_date_start = datetime.strptime(
-        show_date_start_raw[:-5], "%Y/%m/%d").date()
-    show_date_end = datetime.strptime(
-        show_date_end_raw[:-5], "%Y/%m/%d").date()
+    show_date_start = datetime.strptime(show_date_start_raw[:-5], "%Y/%m/%d").date()
+    show_date_end = datetime.strptime(show_date_end_raw[:-5], "%Y/%m/%d").date()
     author = post_data_raw.pop("担当者")
     origin = post_data_raw.pop("発信元")
     category = post_data_raw.pop("カテゴリー")
-    attachment_raw = post_data_raw.pop(
-        "添付ファイル") if "添付ファイル" in post_data_raw else None
+    attachment_raw = post_data_raw.pop("添付ファイル") if "添付ファイル" in post_data_raw else None
     attachment = []
     if attachment_raw is not None:
         for s in attachment_raw.split("\n"):

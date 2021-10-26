@@ -31,6 +31,8 @@ def test_parse_post():
     assert post.attachment == []
     assert post.other == {}
 
+
+def test_post_with_attachment():
     data = {
         "id": 12346,
         "data": {
@@ -41,12 +43,14 @@ def test_parse_post():
             "カテゴリー": "テストカテゴリー2",
             "担当者": "テスト担当者2",
             "公開期間": "2021/10/26(Mon) 〜 2021/11/1(Sun)",
-            "添付ファイル": "[テスト添付ファイル](http://example.com/test)"
+            "添付ファイル": "[テスト添付ファイル](http://example.com/test)",
         },
     }
 
     post = parse_post(data)
     print(post)
 
-    assert post.attachment == [Attachment(name="テスト添付ファイル", url="http://example.com/test")]
+    assert post.attachment == [
+        Attachment(name="テスト添付ファイル", url="http://example.com/test")
+    ]
     assert post.other == {}
