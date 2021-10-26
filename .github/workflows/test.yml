@@ -1,0 +1,44 @@
+name: Python package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.7, 3.8, 3.9, "3.10"]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup pip cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
+      - name: Setup poetry cache
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: poetry-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Setup poetry
+        run: pip install -U poetry
+      - name: Show poetry version
+        run: poetry --version
+      - name: Set poetry config
+        run: poetry config virtualenvs.in-project true
+      - name: Install dependencies
+        run: poetry install
+      - name: Check format
+        run: poetry run black --check --diff tuat_feed tests
+      - name: Run tests
+        run: poetry run pytest -v
