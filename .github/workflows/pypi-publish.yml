@@ -24,7 +24,7 @@ jobs:
           python-version: "3.9"
       - uses: Gr1N/setup-poetry@v7
       - name: Set config
-      - run: |
+        run: |
           poetry config virtualenvs.in-project true
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
       - name: Install dependencies
