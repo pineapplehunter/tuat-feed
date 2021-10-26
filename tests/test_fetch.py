@@ -6,4 +6,3 @@ def test_fetch():
     print(posts)
 
     assert len(posts) > 0
-    
