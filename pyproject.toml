@@ -4,6 +4,7 @@ version = "0.1.2"
 description = "Unofficial library for fetching the feed for TUAT"
 authors = ["Shogo Takata <s196643z@st.go.tuat.ac.jp>"]
 license = "MIT"
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"

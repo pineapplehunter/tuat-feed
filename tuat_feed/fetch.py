@@ -1,5 +1,5 @@
 from typing import List
-from tuat_feed.post import Post, parse_post
+from tuat_feed.post import Post
 import requests
 
 
@@ -17,11 +17,8 @@ def fetch(
             f'category must be one of "all", "academic" or "campus". {category} was supplied.'
         )
 
-    try:
-        feed = response.json()
-        posts = []
-        for p in feed:
-            posts.append(parse_post(p))
-        return posts
-    except:
-        pass
+    feed = response.json()
+    posts = []
+    for p in feed:
+        posts.append(Post.parse_post(p))
+    return posts

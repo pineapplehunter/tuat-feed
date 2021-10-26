@@ -1,4 +1,5 @@
 import tuat_feed
+from tuat_feed.post import Post
 
 
 def test_fetch():
@@ -6,3 +7,5 @@ def test_fetch():
     print(posts)
 
     assert len(posts) > 0
+    for p in posts:
+        assert type(p) is Post

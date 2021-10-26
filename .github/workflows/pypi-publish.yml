@@ -22,11 +22,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.9"
-      - uses: Gr1N/setup-poetry@v7
+      - run: pip install -U poetry
       - name: Set config
         run: |
           poetry config virtualenvs.in-project true
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+      - run: poetry version
       - name: Install dependencies
         run: poetry install
       - name: Publish

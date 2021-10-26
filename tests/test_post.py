@@ -1,4 +1,4 @@
-from tuat_feed.post import Attachment, parse_post
+from tuat_feed.post import Attachment, Post
 from datetime import datetime
 
 
@@ -16,7 +16,7 @@ def test_parse_post():
         },
     }
 
-    post = parse_post(data)
+    post = Post.parse_post(data)
     print(post)
 
     assert post.post_id == 12345
@@ -34,23 +34,44 @@ def test_parse_post():
 
 def test_post_with_attachment():
     data = {
-        "id": 12346,
+        "id": 12345,
         "data": {
-            "本文": "テスト本文2",
-            "タイトル": "テストタイトル2",
-            "発信元": "テスト発信元2",
-            "最終更新日": "2021/10/26(Mon)",
-            "カテゴリー": "テストカテゴリー2",
-            "担当者": "テスト担当者2",
-            "公開期間": "2021/10/26(Mon) 〜 2021/11/1(Sun)",
+            "本文": "テスト本文",
+            "タイトル": "テストタイトル",
+            "発信元": "テスト発信元",
+            "最終更新日": "2021/10/25(Mon)",
+            "カテゴリー": "テストカテゴリー",
+            "担当者": "テスト担当者",
+            "公開期間": "2021/10/25(Mon) 〜 2021/10/31(Sun)",
             "添付ファイル": "[テスト添付ファイル](http://example.com/test)",
         },
     }
 
-    post = parse_post(data)
+    post = Post.parse_post(data)
     print(post)
 
     assert post.attachment == [
         Attachment(name="テスト添付ファイル", url="http://example.com/test")
     ]
     assert post.other == {}
+
+
+def test_post_with_other():
+    data = {
+        "id": 12345,
+        "data": {
+            "本文": "テスト本文",
+            "タイトル": "テストタイトル",
+            "発信元": "テスト発信元",
+            "最終更新日": "2021/10/25(Mon)",
+            "カテゴリー": "テストカテゴリー",
+            "担当者": "テスト担当者",
+            "公開期間": "2021/10/25(Mon) 〜 2021/10/31(Sun)",
+            "その他の項目": "テスト項目",
+        },
+    }
+
+    post = Post.parse_post(data)
+    print(post)
+
+    assert post.other == {"その他の項目": "テスト項目"}
