@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -24,7 +24,7 @@ jobs:
       - name: Setup poetry cache
         uses: actions/cache@v2
         with:
-          path: ~/.venv
+          path: .venv
           key: poetry-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
