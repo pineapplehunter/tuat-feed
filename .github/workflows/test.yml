@@ -8,20 +8,16 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.7, 3.8, 3.9, "3.10"]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Setup pip cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
-      - name: Setup poetry cache
+      - name: Cache Venv
         uses: actions/cache@v2
         with:
           path: .venv
@@ -35,7 +31,9 @@ jobs:
       - name: Show poetry version
         run: poetry --version
       - name: Set poetry config
-        run: poetry config virtualenvs.in-project true
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry run pip install -U pip
       - name: Install dependencies
         run: poetry install
       - name: Check format
