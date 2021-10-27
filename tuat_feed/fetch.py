@@ -6,6 +6,26 @@ import requests
 def fetch(
     category: str = "all", url: str = "https://api.ihavenojob.work/tuat/"
 ) -> List[Post]:
+    """投稿の取得
+
+    Parameters
+    ----------
+    category : str, optional
+        取得する投稿の種類。"all","campus","academic"。デフォルトでは"all"。
+    url : str, optional
+        データを取得するAPIのURL、デフォルトでは"https://api.ihavenojob.work/tuat/"
+
+    Returns
+    -------
+    List[Post]
+        投稿の一覧
+
+    Raises
+    ------
+    ValueError
+        categoryに規定外の入力があった場合
+    """
+
     if category == "all":
         response = requests.get(url)
     elif category == "academic":
