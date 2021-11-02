@@ -30,6 +30,7 @@ def test_parse_post():
     assert post.origin == "テスト発信元"
     assert post.attachment == []
     assert post.other == {}
+    assert repr(post) == "Post(テストタイトル)"
 
 
 def test_post_with_attachment():
@@ -54,6 +55,8 @@ def test_post_with_attachment():
         Attachment(name="テスト添付ファイル", url="http://example.com/test")
     ]
     assert post.other == {}
+    assert repr(post) == "Post(テストタイトル, 添付ファイルあり)"
+    assert repr(post.attachment[0]) == "Attachment(テスト添付ファイル)"
 
 
 def test_post_with_other():
@@ -75,3 +78,23 @@ def test_post_with_other():
     print(post)
 
     assert post.other == {"その他の項目": "テスト項目"}
+
+
+def test_post_with_long_title():
+    data = {
+        "id": 12345,
+        "data": {
+            "本文": "テスト本文",
+            "タイトル": "とてもとてもとてもとてもとても長いタイトル",
+            "発信元": "テスト発信元",
+            "最終更新日": "2021/10/25(Mon)",
+            "カテゴリー": "テストカテゴリー",
+            "担当者": "テスト担当者",
+            "公開期間": "2021/10/25(Mon) 〜 2021/10/31(Sun)",
+        },
+    }
+
+    post = Post.parse_post(data)
+    print(post)
+
+    assert repr(post) == "Post(とてもとてもとてもとてもとても長い...)"

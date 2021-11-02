@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, date
-from typing import Dict, List
+from typing import Any, Dict, List
 
 
 @dataclass(repr=True, eq=True, frozen=True)
@@ -9,7 +9,13 @@ class Attachment:
     """添付ファイルデータ"""
 
     name: str  # ファイル名
-    url: str = field(repr=False)  # URL
+    url: str  # URL
+
+    def __repr__(self) -> str:
+        name = self.name
+        if len(name) > 20:
+            name = name[0:17] + "..."
+        return f"Attachment({name})"
 
 
 @dataclass(repr=True, eq=True, frozen=True)
@@ -18,20 +24,29 @@ class Post:
     掲示板の投稿
     """
 
-    post_id: int = field(repr=False)  # 投稿ID（内部処理用）
+    post_id: int  # 投稿ID（内部処理用）
     title: str  # タイトル
-    description: str = field(repr=False)  # 本文
-    update_date: date = field(repr=False)  # 最終更新日
-    show_date_start: date = field(repr=False)  # 公開期間（開始）
-    show_date_end: date = field(repr=False)  # 公開期間（終了）
-    author: str = field(repr=False)  # 担当者
-    origin: str = field(repr=False)  # 発信元
-    category: str = field(repr=False)  # カテゴリー
-    attachment: List[Attachment] = field(repr=False)  # 添付ファイル
-    other: Dict[str, str] = field(repr=False)  # その他のフィールド
+    description: str  # 本文
+    update_date: date  # 最終更新日
+    show_date_start: date  # 公開期間（開始）
+    show_date_end: date  # 公開期間（終了）
+    author: str  # 担当者
+    origin: str  # 発信元
+    category: str  # カテゴリー
+    attachment: List[Attachment]  # 添付ファイル
+    other: Dict[str, str]  # その他のフィールド
+
+    def __repr__(self) -> str:
+        title = self.title
+        title = title.replace("\n", " ")
+        if len(title) > 20:
+            title = title[0:17] + "..."
+        if len(self.attachment) > 0:
+            return f"Post({title}, 添付ファイルあり)"
+        return f"Post({title})"
 
     @staticmethod
-    def parse_post(post_raw: dict) -> Post:
+    def parse_post(post_raw: Dict) -> Post:
         """取得された生データから投稿情報のクラスに変換します
 
         Parameters
