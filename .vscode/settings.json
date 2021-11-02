@@ -1,0 +1,6 @@
+{
+    "python.formatting.provider": "black",
+    "autoDocstring.docstringFormat": "numpy",
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.typeCheckingMode": "basic"
+}
