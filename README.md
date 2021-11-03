@@ -30,8 +30,7 @@ class Post:
     title: str  # タイトル
     description: str  # 本文
     update_date: date  # 最終更新日
-    show_date_start: date  # 公開期間（開始）
-    show_date_end: date  # 公開期間（終了）
+    show_date: (date, date)  # 公開期間
     author: str  # 担当者
     origin: str  # 発信元
     category: str  # カテゴリー
