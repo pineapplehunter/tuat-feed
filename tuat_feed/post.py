@@ -1,15 +1,17 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, date
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 
 @dataclass(repr=True, eq=True, frozen=True)
 class Attachment:
     """添付ファイルデータ"""
 
-    name: str  # ファイル名
-    url: str  # URL
+    name: str
+    """ファイル名"""
+    url: str
+    """URL"""
 
     def __repr__(self) -> str:
         name = self.name
@@ -24,17 +26,26 @@ class Post:
     掲示板の投稿
     """
 
-    post_id: int  # 投稿ID（内部処理用）
-    title: str  # タイトル
-    description: str  # 本文
-    update_date: date  # 最終更新日
-    show_date_start: date  # 公開期間（開始）
-    show_date_end: date  # 公開期間（終了）
-    author: str  # 担当者
-    origin: str  # 発信元
-    category: str  # カテゴリー
-    attachment: List[Attachment]  # 添付ファイル
-    other: Dict[str, str]  # その他のフィールド
+    post_id: int
+    """投稿ID（内部処理用）"""
+    title: str
+    """タイトル"""
+    description: str
+    """本文"""
+    update_date: date
+    """最終更新日"""
+    show_date: Tuple[date, date]
+    """公開期間"""
+    author: str
+    """担当者"""
+    origin: str
+    """発信元"""
+    category: str
+    """カテゴリー"""
+    attachment: List[Attachment]
+    """添付ファイル"""
+    other: Dict[str, str]
+    """その他のフィールド"""
 
     def __repr__(self) -> str:
         title = self.title
@@ -76,6 +87,7 @@ class Post:
         show_date_start_raw, show_date_end_raw = show_date_raw.split(" 〜 ")
         show_date_start = datetime.strptime(show_date_start_raw[:-5], "%Y/%m/%d").date()
         show_date_end = datetime.strptime(show_date_end_raw[:-5], "%Y/%m/%d").date()
+        show_date = (show_date_start, show_date_end)
         # 担当者
         author = post_data_raw.pop("担当者")
         # 発信元
@@ -97,8 +109,7 @@ class Post:
             title=title,
             description=description,
             update_date=update_date,
-            show_date_start=show_date_start,
-            show_date_end=show_date_end,
+            show_date=show_date,
             author=author,
             origin=origin,
             category=category,

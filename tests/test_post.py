@@ -23,8 +23,10 @@ def test_parse_post():
     assert post.title == "テストタイトル"
     assert post.description == "テスト本文"
     assert post.update_date == datetime(2021, 10, 25).date()
-    assert post.show_date_start == datetime(2021, 10, 25).date()
-    assert post.show_date_end == datetime(2021, 10, 31).date()
+    assert post.show_date == (
+        datetime(2021, 10, 25).date(),
+        datetime(2021, 10, 31).date(),
+    )
     assert post.category == "テストカテゴリー"
     assert post.author == "テスト担当者"
     assert post.origin == "テスト発信元"

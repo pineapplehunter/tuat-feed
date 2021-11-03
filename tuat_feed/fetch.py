@@ -11,7 +11,7 @@ def fetch(
     Parameters
     ----------
     category : str, optional
-        取得する投稿の種類。"all","campus","academic"。デフォルトでは"all"。
+        取得する投稿の種類。"all", "campus", "academic"。デフォルトでは"all"。
     url : str, optional
         データを取得するAPIのURL、デフォルトでは"https://api.ihavenojob.work/tuat/"
 
