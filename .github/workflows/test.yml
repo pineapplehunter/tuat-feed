@@ -17,25 +17,44 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # setup python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+      - name: pip cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # setup poetry
+      - name: Setup poetry
+        run: |
+          pip install -U poetry
+          poetry --version
       - name: Cache Venv
         uses: actions/cache@v2
         with:
           path: .venv
           key: poetry-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Setup poetry
-        run: pip install -U poetry
-      - name: Show poetry version
-        run: poetry --version
       - name: Set poetry config
         run: |
           poetry config virtualenvs.in-project true
           poetry run pip install -U pip
+
+      # setup project
       - name: Install dependencies
         run: poetry install
+
+      # tests
       - name: Check format
         run: poetry run black --check --diff tuat_feed tests
       - name: Run tests
@@ -52,25 +71,44 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      # setup python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+      - name: pip cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # setup poetry
+      - name: Setup poetry
+        run: |
+          pip install -U poetry
+          poetry --version
       - name: Cache Venv
         uses: actions/cache@v2
         with:
           path: .venv
           key: poetry-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Setup poetry
-        run: pip install -U poetry
-      - name: Show poetry version
-        run: poetry --version
       - name: Set poetry config
         run: |
           poetry config virtualenvs.in-project true
           poetry run pip install -U pip
+
+      # setup project
       - name: Install dependencies
         run: poetry install
+
+      # tests
       - name: Check format
         run: poetry run black --check --diff tuat_feed tests
       - name: Run tests
