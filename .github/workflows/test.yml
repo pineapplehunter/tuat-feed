@@ -85,9 +85,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          key: poetry-${{ runner.os }}-${{ matrix.python-version }}
 
       # setup poetry
       - name: Setup poetry
@@ -98,7 +96,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: poetry-${{ hashFiles('pyproject.toml') }}-${{ matrix.python-version }}
+          key: poetry-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}
+          restore-keys: |
+            poetry-${{ runner.os }}-${{ matrix.python-version }}-
       - name: Set poetry config
         run: |
           poetry config virtualenvs.in-project true
