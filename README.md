@@ -1,5 +1,10 @@
 # (非公式)TUAT掲示板ライブラリ
 
+[![test](https://github.com/pineapplehunter/tuat-feed/actions/workflows/test.yml/badge.svg)](https://github.com/pineapplehunter/tuat-feed/actions/workflows/test.yml) [![doc](https://api.netlify.com/api/v1/badges/77818cbd-dd98-4969-ab2d-2d4c6800434f/deploy-status)](https://app.netlify.com/sites/tuat-feed-doc/deploys) [![PyPI version](https://badge.fury.io/py/tuat-feed.svg)](https://badge.fury.io/py/tuat-feed)
+
+## ドキュメント
+https://tuat-feed-doc.netlify.app/tuat_feed.html
+
 ## インストール
 * `python` >= 3.7
 
@@ -11,39 +16,10 @@ $ pip install tuat-feed
 
 ```python
 >>> import tuat_feed
->>> feed = tuat_feed.fetch()
+>>> feed = tuat_feed.fetch_technology() # 工学部掲示板情報の取得
+# >>> feed = tuat_feed.fetch_agriculture() # 農学部掲示板情報の取得
 >>> len(feed)
 40
 >>> feed[0]
 Post(...)
-```
-
-### fetch
-`fetch()`を使って投稿情報をダウンロードします。結果は`Post`の配列になっています。
-### Post
-
-`Post`の定義はかんたんに書くと次のようになっています。
-
-```python
-class Post:
-    post_id: int  # 投稿ID（内部処理用）
-    title: str  # タイトル
-    description: str  # 本文
-    update_date: date  # 最終更新日
-    show_date: (date, date)  # 公開期間
-    author: str  # 担当者
-    origin: str  # 発信元
-    category: str  # カテゴリー
-    attachment: List[Attachment]  # 添付ファイル
-    other: Dict[str, str]  # その他のフィールド
-```
-
-### Attachment
-
-`Attachment`の定義はかんたんに書くと次のようになっています。
-
-```python
-class Attachment:
-    name: str  # ファイル名
-    url: str  # URL
 ```
