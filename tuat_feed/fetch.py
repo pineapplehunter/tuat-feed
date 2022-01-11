@@ -31,20 +31,20 @@ def fetch(
     """
 
     if gakubu == "technology":
-        G = "/T/"
+        G = "Technology"
     elif gakubu == "agriculture":
-        G = "/A/"
+        G = "Agriculture"
     else:
         raise ValueError(
             f'gakubu must be one of "technology" or "agriculture". {gakubu} was supplied.'
         )
 
     if category == "all":
-        response = requests.get(url + G)
+        response = requests.get(url + f"/v2/?gakubu={G}&category=All")
     elif category == "academic":
-        response = requests.get(url + G + "academic")
+        response = requests.get(url + f"/v2/?gakubu={G}&category=Academic")
     elif category == "campus":
-        response = requests.get(url + G + "campus")
+        response = requests.get(url + f"/v2/?gakubu={G}&category=Campus")
     else:
         raise ValueError(
             f'category must be one of "all", "academic" or "campus". {category} was supplied.'

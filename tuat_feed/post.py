@@ -42,6 +42,8 @@ class Post:
     """発信元"""
     category: str
     """カテゴリー"""
+    target: str
+    """対象"""
     attachment: List[Attachment]
     """添付ファイル"""
     other: Dict[str, str]
@@ -71,37 +73,34 @@ class Post:
             投稿情報
         """
 
-        post_data_raw: dict[str, str] = post_raw["data"]
-
         # 投稿ID
-        post_id = post_raw["id"]
+        post_id = post_raw.pop("投稿ID")
         # タイトル
-        title = post_data_raw.pop("タイトル")
+        title = post_raw.pop("タイトル")
         # 本文
-        description = post_data_raw.pop("本文")
+        description = post_raw.pop("本文")
         # 最終更新日
-        update_date_raw = post_data_raw.pop("最終更新日")
+        update_date_raw = post_raw.pop("最終更新日")
         update_date = datetime.strptime(update_date_raw[:-5], "%Y/%m/%d").date()
         # 公開期間
-        show_date_raw = post_data_raw.pop("公開期間")
-        show_date_start_raw, show_date_end_raw = show_date_raw.split(" 〜 ")
+        show_date_raw = post_raw.pop("公開期間")
+        show_date_start_raw, show_date_end_raw = show_date_raw
         show_date_start = datetime.strptime(show_date_start_raw[:-5], "%Y/%m/%d").date()
         show_date_end = datetime.strptime(show_date_end_raw[:-5], "%Y/%m/%d").date()
         show_date = (show_date_start, show_date_end)
         # 担当者
-        author = post_data_raw.pop("担当者")
+        author = post_raw.pop("担当者")
         # 発信元
-        origin = post_data_raw.pop("発信元")
+        origin = post_raw.pop("発信元")
         # カテゴリー
-        category = post_data_raw.pop("カテゴリー")
+        category = post_raw.pop("カテゴリー")
+        # 対象
+        target = post_raw.pop("対象")
         # 添付ファイル
-        attachment_raw = (
-            post_data_raw.pop("添付ファイル") if "添付ファイル" in post_data_raw else None
-        )
+        attachment_raw = post_raw.pop("添付ファイル") if "添付ファイル" in post_raw else None
         attachment = []
         if attachment_raw is not None:
-            for s in attachment_raw.split("\n"):
-                name, url = s[1:-1].split("](")
+            for (name, url) in attachment_raw.items():
                 attachment.append(Attachment(name=name, url=url))
 
         return Post(
@@ -113,6 +112,7 @@ class Post:
             author=author,
             origin=origin,
             category=category,
+            target=target,
             attachment=attachment,
-            other=post_data_raw,
+            other=post_raw,
         )
