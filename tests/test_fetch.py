@@ -25,3 +25,15 @@ def test_other_fetch():
     assert len(posts) > 0
     for p in posts:
         assert type(p) is Post
+
+
+def test_distinct_fetch():
+    ta_posts = tuat_feed.fetch(gakubu="technology", category="academic")
+
+    for (g, c) in [
+        ("technology", "campus"),
+        ("agriculture", "academic"),
+        ("agriculture", "campus"),
+    ]:
+        posts = tuat_feed.fetch(gakubu=g, category=c)
+        assert ta_posts != posts

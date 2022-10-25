@@ -6,7 +6,7 @@ import requests
 def fetch(
     gakubu="technology",
     category: str = "all",
-    url: str = "https://api.ihavenojob.work/tuat/",
+    url: str = "https://api.ihavenojob.work/tuat",
 ) -> List[Post]:
     """投稿の取得
 

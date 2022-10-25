@@ -11,8 +11,8 @@ repository = "https://github.com/pineapplehunter/tuat-feed"
 python = "^3.7"
 requests = "^2.26.0"
 
-[tool.poetry.dev-dependencies]
-black = {version = "^21.9b0", allow-prereleases = true}
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
 pytest = "^6.2.5"
 ipython = "^7.31.1"
 sphinx-autobuild = "^2021.3.14"
