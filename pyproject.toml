@@ -14,7 +14,7 @@ requests = "^2.26.0"
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 pytest = "^6.2.5"
-ipython = "^7.31.1"
+ipython = ">=7.31.1,<9.0.0"
 sphinx-autobuild = "^2021.3.14"
 Sphinx = "^4.2.0"
 sphinx-rtd-theme = "^1.0.0"
