@@ -2,7 +2,7 @@
 name = "tuat-feed"
 version = "0.2.5"
 description = "Unofficial library for fetching the feed for TUAT"
-authors = ["Shogo Takata <s196643z@st.go.tuat.ac.jp>"]
+authors = ["Shogo Takata <s231276x@st.go.tuat.ac.jp>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/pineapplehunter/tuat-feed"
